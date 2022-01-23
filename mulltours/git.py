@@ -1,112 +1,46 @@
 import logging
 import os
 import pathlib
-import subprocess
 import sys
-from pathlib import Path
-from typing import List
+import tempfile
+import time
 
-import git
+import executor
 
-# repo.index.add(lst)
-# repo.index.commit("initial commit")
-
-
-def generate_file_list(path) -> List[Path]:
-    lst = []
-    for p in path.rglob("*"):
-        if ".git/" in str(p):
-            continue
-        logging.debug(p.resolve())
-        if not str(p).lower().startswith(".git/"):
-            lst.append(p)
-    return lst
+from mulltours import git
 
 
 def git_found_ok():
     cmd = [
         "git",
         "--version",
+        ">",
+        "/dev/null",
     ]
-
-    proc = subprocess.Popen(
-        cmd,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-    )
-
-    try:
-        outs, errs = proc.communicate(timeout=15)
-        logging.debug(outs.decode())
-    except subprocess.TimeoutExpired:
-        proc.kill()
-        outs, errs = proc.communicate()
-        logging.warning(errs.decode())
-
-    if errs:
-        logging.warning(f"failed to run {' '.join(cmd)}, error: {errs.decode()}")
-        return False
-    else:
-        logging.debug(f"ran ok: {' '.join(cmd)}")
-        return True
+    s = " ".join(cmd)
+    executor.execute(s)
 
 
 def git_init(path):
     cmd = [
         "git",
         "init",
+        "--quiet",
     ]
-
-    proc = subprocess.Popen(
-        cmd,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-    )
-
-    try:
-        outs, errs = proc.communicate(timeout=15)
-        logging.debug(outs.decode())
-    except subprocess.TimeoutExpired:
-        proc.kill()
-        outs, errs = proc.communicate()
-        logging.warning(errs.decode())
-
-    if errs:
-        logging.warning(f"failed to run {' '.join(cmd)}, error: {errs.decode()}")
-        return False
-    else:
-        logging.debug(f"ran ok: {' '.join(cmd)}")
-        return True
+    s = " ".join(cmd)
+    executor.execute(s)
 
 
 def git_commit(path):
     cmd = [
         "git",
         "commit",
+        "--quiet",
         "--message",
         "Boilerplate",
     ]
-
-    proc = subprocess.Popen(
-        cmd,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-    )
-
-    try:
-        outs, errs = proc.communicate(timeout=15)
-        logging.debug(outs.decode())
-    except subprocess.TimeoutExpired:
-        proc.kill()
-        outs, errs = proc.communicate()
-        logging.warning(errs.decode())
-
-    if errs:
-        logging.warning(f"failed to run {' '.join(cmd)}, error: {errs.decode()}")
-        return False
-    else:
-        logging.debug(f"ran ok: {' '.join(cmd)}")
-        return True
+    s = " ".join(cmd)
+    executor.execute(s)
 
 
 def git_add_all(path):
@@ -115,73 +49,28 @@ def git_add_all(path):
         "add",
         "--all",
     ]
-
-    proc = subprocess.Popen(
-        cmd,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-    )
-
-    try:
-        outs, errs = proc.communicate(timeout=15)
-        logging.debug(outs.decode())
-    except subprocess.TimeoutExpired:
-        proc.kill()
-        outs, errs = proc.communicate()
-        logging.warning(errs.decode())
-
-    if errs:
-        logging.warning(f"failed to run {' '.join(cmd)}, error: {errs.decode()}")
-        return False
-    else:
-        logging.debug(f"ran ok: {' '.join(cmd)}")
-        return True
+    s = " ".join(cmd)
+    executor.execute(s)
 
 
 def git_init_branch(path):
-    os.chdir(path.resolve())
     cmd = [
         "git",
         "config",
         "init.defaultBranch",
         "master",
     ]
-
-    proc = subprocess.Popen(
-        cmd,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-    )
-
-    try:
-        outs, errs = proc.communicate(timeout=15)
-        logging.debug(outs.decode())
-    except subprocess.TimeoutExpired:
-        proc.kill()
-        outs, errs = proc.communicate()
-        logging.warning(errs.decode())
-
-    if errs:
-        logging.warning(f"failed to run {' '.join(cmd)}, error: {errs.decode()}")
-        return False
-    else:
-        logging.debug(f"ran ok: {' '.join(cmd)}")
-        return True
+    s = " ".join(cmd)
+    executor.execute(s)
 
 
-def init(path):
-    r = git.Repo.init(path)
-    return r
-
-
-def main():
-    path = pathlib.Path(".")
-    if not git_found_ok():
-        sys.exit(-1)
-    if not git_init(path):
-        sys.exit(-1)
-    if not git_add_all(path):
-        sys.exit(-1)
+def main(path):
+    os.chdir(path)
+    git.git_found_ok()
+    git.git_init(path)
+    git.git_init_branch(path)
+    git.git_add_all(path)
+    git.git_commit(path)
 
 
 if __name__ == "__main__":
@@ -193,6 +82,12 @@ if __name__ == "__main__":
             logging.StreamHandler(sys.stdout),
         ],
     )
-    logging.debug("This")
 
-    main()
+    path = pathlib.Path(tempfile.gettempdir()) / str(int(time.time()))
+    path.mkdir()
+    f1 = path / "test.txt"
+    open(f1, "w").close()
+
+    logging.debug(path)
+
+    main(path)

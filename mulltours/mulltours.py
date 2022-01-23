@@ -10,23 +10,6 @@ from clinepunk import clinepunk
 from mulltours import git
 
 
-def git_setup(path):
-    if not git.git_found_ok():
-        sys.exit(-1)
-
-    if not git.git_init(path):
-        sys.exit(-1)
-
-    if not git.git_init_branch(path):
-        sys.exit(-1)
-
-    if not git.git_add_all(path):
-        sys.exit(-1)
-
-    if not git.git_commit(path):
-        sys.exit(-1)
-
-
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -57,15 +40,13 @@ def main():
     )
 
     # commit boilerplate
-    os.chdir(path)
-    git_setup(path)
-
+    git.main(path)
     print(path.resolve())
 
 
 if __name__ == "__main__":
     logging.basicConfig(
-        level=logging.INFO,
+        level=logging.DEBUG,
         format="{%(filename)s:%(lineno)d} %(levelname)s - %(message)s",
         handlers=[
             logging.FileHandler(f"{pathlib.Path(__file__).stem}.log"),

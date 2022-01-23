@@ -38,7 +38,7 @@ setup(
             "mulltours=mulltours.cli:main",
         ],
     },
-    install_requires=["cookiecutter", "clinepunk", "GitPython"],
+    install_requires=["cookiecutter", "clinepunk", "executor"],
     license="MIT license",
     long_description=readme + "\n\n" + history,
     include_package_data=True,

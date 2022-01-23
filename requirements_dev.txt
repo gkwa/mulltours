@@ -1,6 +1,6 @@
 cookiecutter
 clinepunk
-GitPython
+executor
 
 black
 pip
