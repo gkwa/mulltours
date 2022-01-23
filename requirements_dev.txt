@@ -2,7 +2,6 @@ cookiecutter
 clinepunk
 executor
 
-
 black
 pip
 bump2version==0.5.11

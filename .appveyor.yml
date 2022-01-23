@@ -1,6 +1,6 @@
 image: Ubuntu2004
 install:
-- npm install
+- make install
 test_script:
-- npm test
+- tox
 build: off
