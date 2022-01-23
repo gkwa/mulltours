@@ -1,6 +1,6 @@
 image: Ubuntu2004
 install:
-- sudo make install
+- sudo bash doit.sh
 test_script:
 - tox
 build: off
