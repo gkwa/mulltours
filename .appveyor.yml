@@ -2,7 +2,10 @@ image: Ubuntu2004
 install:
 - sudo apt -qqy update
 - sudo apt -qy install python3.8-venv
-- sudo bash doit.sh
+- python3 -mvenv .venv
+- source .venv/bin/activate
+- pip install tox
+- make install
 test_script:
 - source .venv/bin/activate && tox
 build: off
