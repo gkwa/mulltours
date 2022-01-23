@@ -52,7 +52,6 @@ def git_found_ok():
 
 
 def git_init(path):
-    os.chdir(path)
     cmd = [
         "git",
         "init",
@@ -80,12 +79,72 @@ def git_init(path):
         return True
 
 
+def git_commit(path):
+    cmd = [
+        "git",
+        "commit",
+        "--message",
+        "Boilerplate",
+    ]
+
+    proc = subprocess.Popen(
+        cmd,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+
+    try:
+        outs, errs = proc.communicate(timeout=15)
+        logging.debug(outs.decode())
+    except subprocess.TimeoutExpired:
+        proc.kill()
+        outs, errs = proc.communicate()
+        logging.warning(errs.decode())
+
+    if errs:
+        logging.warning(f"failed to run {' '.join(cmd)}, error: {errs.decode()}")
+        return False
+    else:
+        logging.debug(f"ran ok: {' '.join(cmd)}")
+        return True
+
+
 def git_add_all(path):
-    os.chdir(path)
     cmd = [
         "git",
         "add",
         "--all",
+    ]
+
+    proc = subprocess.Popen(
+        cmd,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+
+    try:
+        outs, errs = proc.communicate(timeout=15)
+        logging.debug(outs.decode())
+    except subprocess.TimeoutExpired:
+        proc.kill()
+        outs, errs = proc.communicate()
+        logging.warning(errs.decode())
+
+    if errs:
+        logging.warning(f"failed to run {' '.join(cmd)}, error: {errs.decode()}")
+        return False
+    else:
+        logging.debug(f"ran ok: {' '.join(cmd)}")
+        return True
+
+
+def git_init_branch(path):
+    os.chdir(path.resolve())
+    cmd = [
+        "git",
+        "config",
+        "init.defaultBranch",
+        "master",
     ]
 
     proc = subprocess.Popen(

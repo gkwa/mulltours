@@ -40,9 +40,22 @@ def main():
         extra_context={"project_name": name},
         no_input=True,
     )
-    repo = git.init(path)
-    git.add_all(path, repo)
-    print(path.resolve())
+
+    os.chdir(path)
+    if not git.git_found_ok():
+        sys.exit(-1)
+
+    if not git.git_init(path):
+        sys.exit(-1)
+
+    if not git.git_init_branch(path):
+        sys.exit(-1)
+
+    if not git.git_add_all(path):
+        sys.exit(-1)
+
+    if not git.git_commit(path):
+        sys.exit(-1)
 
 
 if __name__ == "__main__":
