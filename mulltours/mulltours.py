@@ -60,6 +60,8 @@ def main():
     os.chdir(path)
     git_setup(path)
 
+    print(path.resolve())
+
 
 if __name__ == "__main__":
     logging.basicConfig(
