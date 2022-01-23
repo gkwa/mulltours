@@ -7,6 +7,8 @@ import sys
 import cookiecutter.main
 from clinepunk import clinepunk
 
+from mulltours import git
+
 
 def main():
     parser = argparse.ArgumentParser()
@@ -38,6 +40,8 @@ def main():
         extra_context={"project_name": name},
         no_input=True,
     )
+    repo = git.init(path)
+    git.add_all(path, repo)
     print(path.resolve())
 
 

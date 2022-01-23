@@ -1,5 +1,6 @@
 cookiecutter
 clinepunk
+GitPython
 
 black
 pip
