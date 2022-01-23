@@ -1,5 +1,7 @@
 image: Ubuntu2004
 install:
+- apt -qqy update
+- apt -qy install python3.8-venv
 - sudo bash doit.sh
 test_script:
 - tox
