@@ -5,7 +5,8 @@ import pathlib
 import sys
 
 import cookiecutter.main
-from clinepunk import clinepunk
+from clinepunk import clinepunk as clinepunkmod
+from clinepunk import words as clinepunkwords
 
 from mulltours import git
 
@@ -27,7 +28,8 @@ def main():
 
     args = parser.parse_args()
 
-    name = "".join(clinepunk.get_words(count=2)) if not args.project else args.project
+    name = "".join(clinepunkmod.get_words()) if not args.project else args.project
+    name = "".join(clinepunkwords.get_words()) if not args.project else args.project
     path = pathlib.Path(args.basedir) / name
 
     url = "https://github.com/audreyr/cookiecutter-pypackage.git"
