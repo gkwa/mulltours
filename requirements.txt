@@ -6,7 +6,7 @@
 #
 appdirs==1.4.4
     # via clinepunk
-arrow==1.2.1
+arrow==1.3.0
     # via jinja2-time
 binaryornot==0.4.4
     # via cookiecutter
