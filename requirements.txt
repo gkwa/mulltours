@@ -21,7 +21,7 @@ click==8.0.3
     #   clinepunk
     #   cookiecutter
     #   mulltours (setup.py)
-clinepunk==0.1.8
+clinepunk==0.1.14
     # via mulltours (setup.py)
 coloredlogs==15.0.1
     # via executor
