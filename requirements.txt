@@ -25,7 +25,7 @@ clinepunk==0.1.14
     # via mulltours (setup.py)
 coloredlogs==15.0.1
     # via executor
-cookiecutter==1.7.3
+cookiecutter==2.6.0
     # via mulltours (setup.py)
 diskcache==5.6.3
     # via clinepunk
