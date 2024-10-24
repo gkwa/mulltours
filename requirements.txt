@@ -10,7 +10,7 @@ arrow==1.3.0
     # via jinja2-time
 binaryornot==0.4.4
     # via cookiecutter
-certifi==2021.10.8
+certifi==2024.8.30
     # via requests
 chardet==5.2.0
     # via binaryornot
