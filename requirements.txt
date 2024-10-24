@@ -39,7 +39,7 @@ humanfriendly==10.0
     #   coloredlogs
     #   executor
     #   property-manager
-idna==3.3
+idna==3.10
     # via requests
 jinja2==3.0.3
     # via
