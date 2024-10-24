@@ -55,7 +55,7 @@ property-manager==3.0
     # via executor
 python-dateutil==2.8.2
     # via arrow
-python-slugify==5.0.2
+python-slugify==8.0.4
     # via cookiecutter
 requests==2.27.1
     # via
