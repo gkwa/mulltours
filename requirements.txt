@@ -61,7 +61,7 @@ requests==2.32.3
     # via
     #   clinepunk
     #   cookiecutter
-six==1.16.0
+six==1.17.0
     # via
     #   cookiecutter
     #   executor
